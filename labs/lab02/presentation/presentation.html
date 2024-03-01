@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Попутников Егор Сергеевич">
-  <title>Презентация к лабораторной работе №1</title>
+  <title>Презентация к лабораторной работе №2</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -387,11 +387,11 @@ background-color: var(--r-background-color);
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">Презентация к лабораторной работе №1</h1>
+  <h1 class="title">Презентация к лабораторной работе №2</h1>
   <p class="author">Попутников Егор Сергеевич</p>
   <p class="institute">Российский университет дружбы народов, Москва,
 Россия</p>
-  <p class="date">28 февраля 2024 года</p>
+  <p class="date">1 марта 2024 года</p>
 </section>
 
 <section>
@@ -410,32 +410,84 @@ background-color: var(--r-background-color);
 </section>
 <section id="актуальность" class="slide level2">
 <h2>Актуальность</h2>
-<p>Для работы каждому студенту направления прикладной информатики
-необходимо иметь виртуальную машину и навыки для её первоначальной
-настройки.</p>
+<p>Для хранения лабораторных работ и их отчётов, необходимо иметь доступ
+к облачному хранилищу,как гитхаб, именно поэтому важно уметь
+пользоваться им.</p>
 </section>
 <section id="цели-и-задачи" class="slide level2">
 <h2>Цели и задачи</h2>
-<p>Целью данной работы является приобретение практических навыков
-установки операционной системы на виртуальную машину, настройки
-минимально необходимых для дальнейшей работы сервисов.</p>
+<p>Целью работы является настройка git.</p>
 </section>
 <section id="выполнение-лабораторной-работы-1." class="slide level2">
 <h2>Выполнение лабораторной работы №1.</h2>
-<p>Для начала необходимо установить Virtual Box на свой ПК. Далее,
-установить операционную систему с загрузочного диска. Перейти в консоль
-и переключиться на роль супер-пользователя.(sudo -i) Обновить все
-пакеты.(dnf -y update) Установить программы для удобства работы в
-консоли(dnf -y install tmux mc) Установить автоматические обновления(при
-необходимости(dnf install dnf-automatic) Установить необходимые драйвера
-для виртуальной машины. Настроить раскладку клавиатуры. Самое важное это
-установить Pandoc и TexLive.</p>
+<p>Установка git</p>
+<p>Установим git: dnf install git Установка gh: dnf install gh</p>
+<p>Базовая настройка git Зададим имя и email владельца репозитория:</p>
+<p>git config –global user.name “egpoputnikov” git config –global
+user.email “poputnikov-egor1@mail” Настроим utf-8 в выводе сообщений
+git:</p>
+<p>git config –global core.quotepath false Зададим имя начальной ветки
+(будем называть её master):</p>
+<p>git config –global init.defaultBranch master Параметр autocrlf:</p>
+<p>git config –global core.autocrlf input</p>
+<p>Параметр safecrlf: git config –global core.safecrlf warn</p>
+<p>Создайте ключи ssh</p>
+<p>по алгоритму rsa с ключём размером 4096 бит: ssh-keygen -t rsa -b
+4096</p>
+<p>по алгоритму ed25519: ssh-keygen -t ed25519</p>
+<p>Создайте ключи pgp генерируем ключ</p>
+<p>gpg –full-generate-key</p>
+<p>Из предложенных опций выбираем: тип RSA and RSA; размер 4096;
+выберите срок действия; значение по умолчанию — 0 (срок действия не
+истекает никогда). GPG запросит личную информацию, которая сохранится в
+ключе: Имя (не менее 5 символов). Адрес электронной почты. При вводе
+email убедитесь, что он соответствует адресу, используемому на GitHub.
+Комментарий. Можно ввести что угодно или нажать клавишу ввода, чтобы
+оставить это поле пустым.</p>
+<p>Настройка github</p>
+<p>Создайте учётную запись на https://github.com. Заполните основные
+данные на https://github.com.</p>
+<p>Добавление PGP ключа в GitHub</p>
+<p>Выводим список ключей и копируем отпечаток приватного ключа:</p>
+<p>gpg –list-secret-keys –keyid-format LONG</p>
+<p>Отпечаток ключа — это последовательность байтов, используемая для
+идентификации более длинного, по сравнению с самим отпечатком ключа.</p>
+<p>Cкопируйте ваш сгенерированный PGP ключ в буфер обмена:</p>
+<pre><code>gpg --armor --export &lt;PGP Fingerprint&gt; | xclip -sel clip</code></pre>
+<p>Перейдите в настройки GitHub (https://github.com/settings/keys),
+нажмите на кнопку New GPG key и вставьте полученный ключ в поле
+ввода.</p>
+<p>Настройка автоматических подписей коммитов git</p>
+<p>Используя введёный email, укажите Git применять его при подписи
+коммитов:</p>
+<pre><code>git config --global user.signingkey &lt;PGP Fingerprint&gt;
+git config --global commit.gpgsign true
+git config --global gpg.program $(which gpg2)</code></pre>
+<p>Настройка gh Для начала необходимо авторизоваться</p>
+<p>gh auth login</p>
+<p>Утилита задаст несколько наводящих вопросов. Авторизоваться можно
+через броузер.</p>
+<p>Шаблон для рабочего пространства</p>
+<p>Рабочее пространство для лабораторной работы Репозиторий:
+https://github.com/yamadharma/course-directory-student-template.</p>
+<p>Сознание репозитория курса на основе шаблона</p>
+<pre><code>mkdir -p ~/work/study/2022-2023/&quot;Операционные системы&quot;
+cd ~/work/study/2022-2023/&quot;Операционные системы&quot;
+gh repo create study_2022-2023_os-intro --template=yamadharma/course-directory-student-template --public
+git clone --recursive git@github.com:&lt;owner&gt;/study_2022-2023_os-intro.git os-intro</code></pre>
+<p>Настройка каталога курса Перейдите в каталог курса: cd
+~/work/study/2022-2023/“Операционные системы”/os-intro Удалите лишние
+файлы: rm package.json</p>
+<p>Создайте необходимые каталоги:</p>
+<p>echo os-intro &gt; COURSE make</p>
+<p>Отправьте файлы на сервер:</p>
+<pre><code>git add .
+git commit -am &#39;feat(main): make course structure&#39;
+git push</code></pre>
 </section>
 <section id="вывод." class="slide level2">
 <h2>Вывод.</h2>
-<p>Установить и настроить виртуальную машину совсем не сложно, но очень
-важно для выполнения лабораторных работ. Я приобрел необходимые навыки
-для этого.</p>
+<p>Я научился пользоваться git.</p>
 </section></section>
     </div>
   </div>
